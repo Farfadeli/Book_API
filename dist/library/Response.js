@@ -1,0 +1,16 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var _a;
+Object.defineProperty(exports, "__esModule", { value: true });
+const chalk_1 = __importDefault(require("chalk"));
+class Response {
+}
+_a = Response;
+Response.log = (args) => _a.info(args);
+Response.info = (args) => console.log(chalk_1.default.green(`[${new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}] [INFO RESPONSE]`), typeof args === 'string' ? chalk_1.default.greenBright(args) : args);
+Response.warn = (args) => console.log(chalk_1.default.yellow(`[${new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}] [WARN RESPONSE]`), typeof args === 'string' ? chalk_1.default.yellowBright(args) : args);
+Response.error = (args) => console.log(chalk_1.default.red(`[${new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric' })}] [ERROR RESPONSE]`), typeof args === 'string' ? chalk_1.default.redBright(args) : args);
+exports.default = Response;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiUmVzcG9uc2UuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi9zcmMvbGlicmFyeS9SZXNwb25zZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOzs7Ozs7QUFBQSxrREFBMEI7QUFHMUIsTUFBcUIsUUFBUTs7O0FBQ1gsWUFBRyxHQUFHLENBQUMsSUFBUyxFQUFFLEVBQUUsQ0FBQyxFQUFJLENBQUMsSUFBSSxDQUFDLElBQUksQ0FBQyxBQUFqQyxDQUFrQztBQUVyQyxhQUFJLEdBQUcsQ0FBQyxJQUFTLEVBQUUsRUFBRSxDQUMvQixPQUFPLENBQUMsR0FBRyxDQUNQLGVBQUssQ0FBQyxLQUFLLENBQUMsSUFBSSxJQUFJLElBQUksRUFBRSxDQUFDLGtCQUFrQixDQUFDLE9BQU8sRUFBRSxFQUFFLE9BQU8sRUFBRSxNQUFNLEVBQUUsSUFBSSxFQUFFLFNBQVMsRUFBRSxLQUFLLEVBQUUsTUFBTSxFQUFFLEdBQUcsRUFBRSxTQUFTLEVBQUUsSUFBSSxFQUFFLFNBQVMsRUFBRSxNQUFNLEVBQUUsU0FBUyxFQUFFLENBQUMsbUJBQW1CLENBQUMsRUFDbkwsT0FBTyxJQUFJLEtBQUssUUFBUSxDQUFDLENBQUMsQ0FBQyxlQUFLLENBQUMsV0FBVyxDQUFDLElBQUksQ0FBQyxDQUFDLENBQUMsQ0FBQyxJQUFJLENBQzVELEFBSmEsQ0FJWjtBQUVRLGFBQUksR0FBRyxDQUFDLElBQVMsRUFBRSxFQUFFLENBQy9CLE9BQU8sQ0FBQyxHQUFHLENBQ1AsZUFBSyxDQUFDLE1BQU0sQ0FBQyxJQUFJLElBQUksSUFBSSxFQUFFLENBQUMsa0JBQWtCLENBQUMsT0FBTyxFQUFFLEVBQUUsT0FBTyxFQUFFLE1BQU0sRUFBRSxJQUFJLEVBQUUsU0FBUyxFQUFFLEtBQUssRUFBRSxNQUFNLEVBQUUsR0FBRyxFQUFFLFNBQVMsRUFBRSxJQUFJLEVBQUUsU0FBUyxFQUFFLE1BQU0sRUFBRSxTQUFTLEVBQUUsQ0FBQyxtQkFBbUIsQ0FBQyxFQUNwTCxPQUFPLElBQUksS0FBSyxRQUFRLENBQUMsQ0FBQyxDQUFDLGVBQUssQ0FBQyxZQUFZLENBQUMsSUFBSSxDQUFDLENBQUMsQ0FBQyxDQUFDLElBQUksQ0FDN0QsQUFKYSxDQUlaO0FBRVEsY0FBSyxHQUFHLENBQUMsSUFBUyxFQUFFLEVBQUUsQ0FDaEMsT0FBTyxDQUFDLEdBQUcsQ0FDUCxlQUFLLENBQUMsR0FBRyxDQUFDLElBQUksSUFBSSxJQUFJLEVBQUUsQ0FBQyxrQkFBa0IsQ0FBQyxPQUFPLEVBQUUsRUFBRSxPQUFPLEVBQUUsTUFBTSxFQUFFLElBQUksRUFBRSxTQUFTLEVBQUUsS0FBSyxFQUFFLE1BQU0sRUFBRSxHQUFHLEVBQUUsU0FBUyxFQUFFLElBQUksRUFBRSxTQUFTLEVBQUUsTUFBTSxFQUFFLFNBQVMsRUFBRSxDQUFDLG9CQUFvQixDQUFDLEVBQ2xMLE9BQU8sSUFBSSxLQUFLLFFBQVEsQ0FBQyxDQUFDLENBQUMsZUFBSyxDQUFDLFNBQVMsQ0FBQyxJQUFJLENBQUMsQ0FBQyxDQUFDLENBQUMsSUFBSSxDQUMxRCxBQUpjLENBSWI7a0JBbkJXLFFBQVEifQ==
