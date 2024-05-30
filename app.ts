@@ -1,9 +1,9 @@
 const express = require("express")
 
-const app = express()
+const sap = express()
 
-app.use("/", (req, res) => {
+sap.use("/", (req, res) => {
     res.json({Nicolas : "Daunac"})
 })
 
-module.exports = app
+module.exports = sap
