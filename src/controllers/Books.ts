@@ -1,10 +1,9 @@
 import { Request, Response } from 'express';
-import { getAllBooks, getBookById, getBookQuantity, addBook, updateAuteur_book, getBookByDate } from '../models/Books';
+import { getAllBooks, getBookById, getBookQuantity, addBook, addAuteur_book, getBookByDate, updateAuteur_book, updateBook } from '../models/Books';
 import { getAuthorById } from '../models/Autor';
 
 const createBook = async (req: Request, res: Response) => {
     try {
-        console.log(req.body);
         if (!req.body.titre || !req.body.auteur || !req.body.quantite || !req.body.annee_publication) {
             return res.status(400).json({ error: 'Missing parameters' });
         } else {
@@ -24,15 +23,14 @@ const createBook = async (req: Request, res: Response) => {
                 const book = {
                     titre: req.body.titre,
                     quantite: req.body.quantite,
-                    annee_publication: req.body.annee_publication,
-                    created_at: created_at
+                    annee_publication: req.body.annee_publication
                 };
                 console.log(book);
                 const addedBook = await addBook(book);
                 const latestBook = await getBookByDate(created_at);
                 const latestBookId = latestBook[latestBook.length - 1].id;
                 if (latestBookId !== undefined) {
-                    await updateAuteur_book(latestBookId, authotId);
+                    await addAuteur_book(latestBookId, authotId);
 
                     return res.status(201).json({ message: 'Book added', newBook: addedBook });
                 } else {
@@ -89,4 +87,38 @@ const getBooksQuantity = async (req: Request, res: Response) => {
     }
 };
 
-export { getBooks, getBooksById, getBooksQuantity, createBook };
+const updateBooks = async (req: Request, res: Response) => {
+    try {
+        if (isNaN(Number(req.params.id))) {
+            return res.status(400).json({ error: 'Invalid id' });
+        } else {
+            if ((await getBookById(Number(req.params.id))) === undefined) {
+                return res.status(404).json({ error: 'No book found' });
+            } else {
+                const updatedBook = await getBookById(Number(req.params.id));
+                if (req.body.auteurId !== undefined) {
+                    const verifiedAuthor = await getAuthorById(Number(req.body.auteurId));
+                    if (!verifiedAuthor) {
+                        return res.status(400).json('Author do not exist');
+                    }
+                    await updateAuteur_book(parseInt(req.params.id), req.body.auteurId);
+                }
+                if (!req.body.titre || !req.body.annee_publication) {
+                    return res.status(400).json({ error: 'Missing parameters' });
+                } else {
+                    const book = {
+                        titre: req.body.titre,
+                        quantite: updatedBook.quantite,
+                        annee_publication: req.body.annee_publication
+                    };
+                    await updateBook(Number(req.params.id), book);
+                    res.status(200).json({ message: 'Book updated' });
+                }
+            }
+        }
+    } catch (err) {
+        return res.status(500).json({ error: err });
+    }
+};
+
+export { getBooks, getBooksById, getBooksQuantity, createBook, updateBooks };

@@ -3,5 +3,4 @@ export interface IBooks {
     titre: string;
     annee_publication: number;
     quantite: number;
-    created_at: string;
 }
