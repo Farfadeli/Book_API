@@ -1,6 +1,5 @@
 import dbPromise from '../config/database';
 import { IBooks } from '../interfaces/Books';
-import { IAutor } from '../interfaces/Autor';
 
 const getAllBooks = async (): Promise<IBooks[]> => {
     const db = await dbPromise;
