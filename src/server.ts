@@ -1,70 +1,42 @@
-import express, { Request, Response, NextFunction } from 'express';
-import http from 'http';
-import sequelize from './config/database';
-import config from './config/config';
-import Logging from './library/Logging';
-import cors from 'cors';
-import cron from 'node-cron';
+import express, { Request, Response } from 'express';
 
-// Routes
-const router = express();
+const app = express();
+const PORT = process.env.PORT || 8000;
 
-// Sync database and start server
-sequelize
-    .sync()
-    .then(() => {
-        Logging.info('SQLite database is connected');
-        startServer();
-    })
-    .catch((error: any) => {
-        Logging.error('Unable to connect to the database');
-        Logging.error(error);
-    });
+app.get('/', (req: Request, res: Response) => {
+    res.json({ "Titre": "Ma bibliothèque en ligne" });
+});
 
-// Start server function
-const startServer = () => {
-    cron.schedule('0 0 * * *', () => {
-        Logging.info('Running a task every day at 00:00');
-    });
 
-    router.use(
-        cors({
-            origin: ['http://localhost:3000']
-        })
-    );
+// Routes GET
+app.get("/api/livre", (req: Request, res: Response) => {
+    res.status(200).json({ livre: "Not found" })
+})
 
-    router.use((req: Request, res: Response, next: NextFunction) => {
-        Logging.info(`Incoming -> Method: [${req.method}] - Url: [${req.originalUrl}] - Ip: [${req.socket.remoteAddress}]`);
-        res.on('finish', () => {
-            Logging.info(
-                `Server Started -> Method: [${req.method}] - Url: [${req.originalUrl}] - Ip: [${req.socket.remoteAddress}] - Status: [${res.statusCode}]`
-            );
-        });
-        next();
-    });
+app.get("/api/livre/:id", (req: Request, res: Response) => {
+    res.status(200).json({ livre: "Not found" })
+})
 
-    router.use(express.urlencoded({ extended: true }));
-    router.use(express.json({}));
+app.get("/api/livre/:id/quantite", (req: Request , res : Response) => {
+    res.status(200).json({quantite : 0})
+})
 
-    // The rules of the API
-    router.use((req: Request, res: Response, next: NextFunction) => {
-        res.header('Access-Control-Allow-Origin', '*');
-        res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-with, Content-Type, Accept, Authorization');
-        if (req.method == 'OPTIONS') {
-            res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
-            return res.status(200).json({});
-        }
-        next();
-    });
+app.get("/api/auteur" , (req : Request , res : Response) => {
+    res.status(200).json({auteur : "Nicolas"})
+})
 
-    // CRUDS
+app.get("/api/auteur/:id", (req : Request , res : Response) => {
+    res.status(200).json({auteur : "Baptiste"})
+})
 
-    // Error handling
-    router.use((req: Request, res: Response, next: NextFunction) => {
-        const error = new Error(`Route not found -> Method: [${req.method}] - Url: [${req.originalUrl}]`);
-        Logging.error(error.message);
-        return res.status(404).json({ message: error.message });
-    });
+app.get("/api/recherche/:mots" , (req : Request , res : Response) => {
+    res.status(200).json({result : "Les misérable"})
+})
 
-    http.createServer(router).listen(config.port, () => Logging.info(`Server is running on port ${config.port}`));
-};
+
+
+
+// Port listening
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
