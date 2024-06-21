@@ -71,4 +71,24 @@ const updateAuteur_book = async (bookId: number, newAuthorId: number): Promise<v
     await db.run('UPDATE auteur_livre SET id_auteur = ? WHERE id_livre = ?', newAuthorId, bookId);
 };
 
-export { getAllBooks, getBookById, getBookQuantity, addBook, addAuteur_book, getBookByDate, updateBook, updateAuteur_book };
+const updateQuantity = async (id: number, quantity: number): Promise<void> => {
+    const db = await dbPromise;
+    await db.run('UPDATE livres SET quantite = ? WHERE id = ?', quantity, id);
+};
+
+const deleteBook = async (id: number): Promise<void> => {
+    const db = await dbPromise;
+    await db.run('DELETE FROM livres WHERE id = ?', id);
+};
+export {
+    getAllBooks,
+    getBookById,
+    getBookQuantity,
+    addBook,
+    addAuteur_book,
+    getBookByDate,
+    updateBook,
+    updateAuteur_book,
+    updateQuantity,
+    deleteBook
+};

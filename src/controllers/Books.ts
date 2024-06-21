@@ -1,5 +1,16 @@
 import { Request, Response } from 'express';
-import { getAllBooks, getBookById, getBookQuantity, addBook, addAuteur_book, getBookByDate, updateAuteur_book, updateBook } from '../models/Books';
+import {
+    getAllBooks,
+    getBookById,
+    getBookQuantity,
+    addBook,
+    addAuteur_book,
+    getBookByDate,
+    updateAuteur_book,
+    updateBook,
+    updateQuantity,
+    deleteBook
+} from '../models/Books';
 import { getAuthorById } from '../models/Autor';
 
 const createBook = async (req: Request, res: Response) => {
@@ -26,6 +37,7 @@ const createBook = async (req: Request, res: Response) => {
                     annee_publication: req.body.annee_publication
                 };
                 console.log(book);
+                console.log();
                 const addedBook = await addBook(book);
                 const latestBook = await getBookByDate(created_at);
                 const latestBookId = latestBook[latestBook.length - 1].id;
@@ -121,4 +133,43 @@ const updateBooks = async (req: Request, res: Response) => {
     }
 };
 
-export { getBooks, getBooksById, getBooksQuantity, createBook, updateBooks };
+const updateQuantityByID = async (req: Request, res: Response) => {
+    try {
+        if (!req.body.quantite) {
+            return res.status(400).json({ error: 'Missing parameters' });
+        } else {
+            if (isNaN(Number(req.params.id))) {
+                return res.status(400).json({ error: 'Invalid id' });
+            } else {
+                if ((await getBookById(Number(req.params.id))) === undefined) {
+                    return res.status(404).json({ error: 'No book found' });
+                } else {
+                    const quantity = req.body.quantite;
+                    await updateQuantity(Number(req.params.id), quantity);
+                    res.status(200).json({ message: 'Quantity updated' });
+                }
+            }
+        }
+    } catch (err) {
+        return res.status(500).json({ error: err });
+    }
+};
+
+const deleteBooksById = async (req: Request, res: Response) => {
+    try {
+        if (isNaN(Number(req.params.id))) {
+            return res.status(400).json({ error: 'Invalid id' });
+        } else {
+            if ((await getBookById(Number(req.params.id))) === undefined) {
+                return res.status(404).json({ error: 'No book found' });
+            } else {
+                await deleteBook(Number(req.params.id));
+                res.status(200).json({ message: 'Book deleted' });
+            }
+        }
+    } catch (err) {
+        return res.status(500).json({ error: err });
+    }
+};
+
+export { getBooks, getBooksById, getBooksQuantity, createBook, updateBooks, updateQuantityByID, deleteBooksById };
